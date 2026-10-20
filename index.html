@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>고등학교 산화·환원 집중 학습실</title>
+<style>
+:root{--bg:#f3f6fb;--card:#fff;--ink:#18243a;--muted:#63718a;--blue:#315bea;--line:#dce4f0;--green:#147d56;--red:#b82e43;--amber:#8a6200}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif;line-height:1.55}
+header{background:#172747;color:white;padding:24px max(18px,calc((100% - 1000px)/2))}header h1{margin:0 0 6px;font-size:25px}header p{margin:0;color:#d4def4}
+main{max-width:1000px;margin:auto;padding:20px}.tabs{display:flex;gap:8px;margin-bottom:16px}.tab{flex:1;padding:13px 8px;border:1px solid var(--line);border-radius:12px;background:#fff;font-weight:750;font-size:15px;cursor:pointer}.tab{color:var(--ink)}.tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:15px;box-shadow:0 4px 16px #17274708}
+h2{font-size:21px;margin:0 0 10px}h3{font-size:17px;margin:0 0 8px}.muted{color:var(--muted)}.small{font-size:13px}.equation{background:#eef3ff;border-radius:12px;padding:18px 12px;text-align:center;font-size:clamp(19px,4vw,28px);font-weight:750;margin:14px 0;overflow-wrap:anywhere}
+label{display:block;font-weight:650;margin:12px 0 6px}input,select{width:100%;padding:11px 12px;border:1px solid #c8d3e4;border-radius:9px;background:white;color:var(--ink);font-size:16px}input[type=radio],input[type=checkbox]{width:auto}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+button{font:inherit}.btn{border:0;background:var(--blue);color:white;font-weight:750;border-radius:9px;padding:11px 15px;cursor:pointer;margin:10px 7px 0 0}.btn.secondary{background:#e8edf7;color:#223454}.btn.ghost{background:white;color:var(--blue);border:1px solid #cbd7f4}.btn:disabled{opacity:.5;cursor:not-allowed}
+.feedback{padding:12px;border-radius:10px;margin-top:12px;line-height:1.6}.good{background:#e8f7ef;color:#116343}.bad{background:#fff0f0;color:#9e2938}.hint{background:#fff7dc;color:#735400;padding:12px;border-radius:10px;margin-top:12px}.hidden{display:none!important}
+.progress{height:8px;background:#e5eaf3;border-radius:8px;overflow:hidden;margin:12px 0 5px}.progress div{height:100%;width:0;background:var(--blue);transition:width .2s}.choice{display:flex;align-items:flex-start;gap:9px;font-weight:500;padding:8px 10px;border:1px solid var(--line);border-radius:9px;margin:7px 0;cursor:pointer}.choice input{margin-top:5px}.rule{padding:10px 0;border-bottom:1px solid var(--line)}.rule:last-child{border-bottom:0}.electron-scene{display:flex;align-items:center;justify-content:space-around;gap:12px;background:#f2f6ff;border-radius:14px;padding:18px;flex-wrap:wrap}.ion{border:2px solid #315bea;background:white;color:#1d3fa7;border-radius:14px;padding:18px 22px;font-size:22px;font-weight:800;min-width:80px;text-align:center}.electron-flow{text-align:center;font-weight:750;color:#315bea;min-width:110px}.arrow-line{font-size:30px;transition:transform .6s}.electron-scene.moved .arrow-line{transform:translateX(12px);color:#147d56}.electron-scene.moved #donorIon{background:#e8f7ef;border-color:#147d56}.electron-scene.moved #acceptorIon{background:#fff7dc;border-color:#d99a00}.step-option{display:flex;gap:9px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:9px;margin:7px 0;cursor:pointer}.step-option input{width:auto}.wrong-item{padding:10px 0;border-bottom:1px solid var(--line)}.pill{display:inline-block;border-radius:99px;background:#e8edf7;padding:3px 9px;font-size:12px;font-weight:750}.statrow{display:flex;gap:8px;flex-wrap:wrap}.stat{background:#f2f5fb;padding:9px 12px;border-radius:9px;font-size:14px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:480px}th,td{text-align:left;border-bottom:1px solid var(--line);padding:9px}th{background:#f5f7fb}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:18px}
+@media(max-width:620px){main{padding:12px}.card{padding:15px}.grid2,.grid3{grid-template-columns:1fr}.tab{font-size:13px}.equation{padding:15px 8px}}
+
+.concept-card{display:flex;flex-direction:column;gap:8px;text-align:left;background:#f7f9fe;border:1px solid var(--line);border-radius:12px;padding:15px;color:var(--ink);cursor:pointer;font:inherit}.concept-card b{font-size:17px}.concept-card span{font-size:13px;color:var(--muted)}.concept-card em{font-style:normal;border-top:1px solid var(--line);padding-top:9px;color:#31506f}.concept-card.open{background:#eef4ff;border-color:#9bb4f7}#formulaResult,#experimentFeedback,#quickQuizResult{margin-top:12px}.analysis-result{background:#f0f7f3;border:1px solid #c8e5d4;padding:13px;border-radius:10px;margin-top:12px}.analysis-error{background:#fff4f2;border:1px solid #f0cbc6;padding:13px;border-radius:10px;margin-top:12px}.quiz-item{padding:12px 0;border-bottom:1px solid var(--line)}.quiz-item label{display:block;margin:7px 0}.quiz-item .why{margin-top:8px;color:var(--muted);font-size:14px}
+
+</style>
+</head>
+<body>
+<header><h1>🧪 고등학교 산화·환원 집중 학습실</h1><p>산화수, 산화·환원 개념을 진단하고, 산화수와 실험 상황을 분석하며 문제를 풀어 보세요.</p></header>
+<main>
+<div class="tabs">
+<button class="tab active" data-panel="redoxPanel">🔋 산화·환원</button>
+<button class="tab" data-panel="conceptPanel">📖 개념 정리</button>
+<button class="tab" data-panel="studyPanel">📚 학습 관리</button>
+</div>
+
+<section id="conceptPanel" class="hidden">
+<div class="card">
+<h2>📖 산화·환원 핵심 개념</h2>
+<p class="muted">문제를 풀기 전에 규칙과 핵심 원리를 정리해 보세요. 각 개념을 읽고 예시를 통해 확인할 수 있습니다.</p>
+</div>
+<div class="card">
+<h2>산화수 규칙 요약</h2>
+<div class="rule"><b>1. 홑원소 물질:</b> 산화수는 0이다. 예: Zn, Fe, O₂, Cl₂.</div>
+<div class="rule"><b>2. 단원자 이온:</b> 산화수는 이온 전하와 같다. 예: Na⁺는 +1, S²⁻는 −2.</div>
+<div class="rule"><b>3. 중성 화합물:</b> 모든 원자의 산화수 합은 0이다.</div>
+<div class="rule"><b>4. 다원자 이온:</b> 모든 원자의 산화수 합은 이온의 전체 전하와 같다.</div>
+<div class="rule"><b>5. 일반적인 값:</b> 1족 금속 +1, 2족 금속 +2, F −1, O 보통 −2, H 보통 +1. 과산화물·금속 수소화물 등에는 예외가 있다.</div>
+<div class="rule"><b>6. 변화 판별:</b> 산화수 증가 = 산화(전자 잃음), 산화수 감소 = 환원(전자 얻음).</div>
+<div class="rule"><b>7. 시약 판별:</b> 자신이 환원되는 물질은 산화제, 자신이 산화되는 물질은 환원제이다.</div>
+</div>
+<div class="card"><h2>⚡ 전자 이동 이해하기</h2><p class="muted">개념 정리 탭을 선택할 때마다 다른 반응 사례가 무작위로 나옵니다. 전자를 주는 쪽은 산화되고, 받는 쪽은 환원됩니다.</p>
+<div class="grid2"><div><b id="electronCaseTitle">아연과 구리 이온</b><p id="electronCasePrompt" class="muted small">전자 이동을 확인해 보세요.</p></div><div><button class="btn secondary" id="nextElectronCase">🎲 다른 사례 보기</button></div></div>
+<div class="electron-scene" id="electronScene"><div class="ion" id="donorIon">Zn</div><div class="electron-flow"><span id="electronCount">전자 2e⁻</span><div class="arrow-line">⟶</div><span>이동</span></div><div class="ion" id="acceptorIon">Cu²⁺</div></div>
+<p id="electronCaption">Zn은 전자 2개를 잃어 Zn²⁺로 산화되고, Cu²⁺는 전자 2개를 얻어 Cu로 환원됩니다.</p><button class="btn" id="animateElectron">전자 이동 보기</button><button class="btn secondary" id="resetElectron">처음으로</button></div>
+<div class="card">
+<h2>🫧 산소·수소의 이동으로 산화·환원 이해하기</h2>
+<p class="muted">산화·환원은 전자 이동과 산화수 변화로 설명할 수 있고, 일부 반응에서는 산소나 수소가 이동하는 것으로도 쉽게 파악할 수 있습니다.</p>
+<div class="grid2">
+<button class="btn" id="oxygenMoveTab">산소의 이동</button>
+<button class="btn secondary" id="hydrogenMoveTab">수소의 이동</button>
+</div>
+<div id="oxygenMoveContent" style="margin-top:14px">
+<h3>산소의 이동</h3>
+<div class="rule"><b>산소를 얻으면 산화</b> · <b>산소를 잃으면 환원</b></div>
+<div class="grid2"><div><label for="oxygenCaseSelect">사례 선택</label><select id="oxygenCaseSelect">
+<option value="0">산화구리와 수소</option><option value="1">산화철과 일산화탄소</option><option value="2">마그네슘의 연소</option><option value="3">탄소의 연소</option><option value="4">산화구리와 탄소</option>
+</select></div><div><button class="btn secondary" id="nextOxygenCase">🎲 다른 산소 이동 사례</button></div></div>
+<div class="equation" id="oxygenEquation">CuO + H₂ → Cu + H₂O</div>
+<div id="oxygenExplanation"></div>
+</div>
+<div id="hydrogenMoveContent" class="hidden" style="margin-top:14px">
+<h3>수소의 이동</h3>
+<div class="rule"><b>수소를 잃으면 산화</b> · <b>수소를 얻으면 환원</b></div>
+<div class="grid2"><div><label for="hydrogenCaseSelect">사례 선택</label><select id="hydrogenCaseSelect">
+<option value="0">에탄올의 산화</option><option value="1">에텐의 수소 첨가</option><option value="2">아세트알데하이드의 환원</option><option value="3">프로판올의 산화</option><option value="4">사이클로헥산의 탈수소</option>
+</select></div><div><button class="btn secondary" id="nextHydrogenCase">🎲 다른 수소 이동 사례</button></div></div>
+<div class="equation" id="hydrogenEquation">CH₃CH₂OH → CH₃CHO + H₂</div>
+<div id="hydrogenExplanation"></div>
+</div>
+<p class="muted small">기억하기: 산소의 이동 관점에서는 산소를 얻는 것이 산화, 수소의 이동 관점에서는 수소를 잃는 것이 산화입니다. 모든 산화·환원 반응이 산소나 수소를 포함하는 것은 아니므로, 산화수 변화와 전자 이동도 함께 확인하세요.</p>
+</div>
+
+<div class="card"><h2>🗂️ 개념 카드</h2><p class="muted">카드를 눌러 핵심 정의와 자주 하는 착각을 확인하세요.</p><div class="grid2" id="conceptCards">
+<button class="concept-card" data-concept="oxidation"><b>산화</b><span>정의를 확인하려면 누르기</span><em class="hidden">전자를 잃거나 산화수가 증가하는 과정입니다. 산소와 결합하는 반응도 산화의 한 예입니다.</em></button>
+<button class="concept-card" data-concept="reduction"><b>환원</b><span>정의를 확인하려면 누르기</span><em class="hidden">전자를 얻거나 산화수가 감소하는 과정입니다. 산화와 환원은 동시에 일어납니다.</em></button>
+<button class="concept-card" data-concept="oxidizer"><b>산화제</b><span>정의를 확인하려면 누르기</span><em class="hidden">다른 물질을 산화시키고 자신은 환원되는 물질입니다. 즉, 전자를 받는 쪽입니다.</em></button>
+<button class="concept-card" data-concept="reducer"><b>환원제</b><span>정의를 확인하려면 누르기</span><em class="hidden">다른 물질을 환원시키고 자신은 산화되는 물질입니다. 즉, 전자를 주는 쪽입니다.</em></button>
+</div></div>
+</section>
+
+<section id="redoxPanel">
+<div class="card"><h2>🎯 빠른 개념 진단</h2><p class="muted">시작 버튼을 누르면 문제 은행에서 무작위로 세 문항이 출제됩니다. 답을 선택한 뒤 채점하세요.</p><button class="btn" id="startQuickQuiz">🎲 랜덤 진단 시작</button><div id="quickQuiz"></div><button class="btn" id="gradeQuickQuiz" disabled>진단 채점하기</button><div id="quickQuizResult" aria-live="polite"></div></div>
+<div class="card">
+<h2>🧮 산화수 분석기</h2>
+<p class="muted">간단한 화학식을 입력하면 원소별 개수와 산화수 합을 바탕으로 목표 원소의 산화수를 계산합니다. 괄호가 포함된 복잡한 화학식이나 예외 산화수는 예시 선택을 권장합니다.</p>
+<div class="grid2"><div><label for="formulaInput">화학식</label><input id="formulaInput" value="KMnO₄" placeholder="예: KMnO4, H2SO4, Fe2O3"></div><div><label for="targetElement">산화수를 구할 원소 기호</label><input id="targetElement" value="Mn" placeholder="예: Mn"></div></div>
+<div class="statrow" style="margin-top:10px"><button class="btn" id="startRandomFormula">🎲 랜덤 산화수 문제 시작</button><button class="btn secondary formula-example" data-formula="KMnO4" data-element="Mn">KMnO₄</button><button class="btn secondary formula-example" data-formula="H2SO4" data-element="S">H₂SO₄</button><button class="btn secondary formula-example" data-formula="Fe2O3" data-element="Fe">Fe₂O₃</button><button class="btn secondary formula-example" data-formula="NH4+" data-element="N">NH₄⁺</button></div>
+<button class="btn" id="analyzeFormula">산화수 계산하기</button><div id="formulaResult" aria-live="polite"></div>
+</div>
+<div class="card"><h2>🧪 실험 상황 해석</h2><p class="muted">관찰 결과를 읽고 산화·환원과 산화제·환원제를 판단해 보세요.</p>
+<label for="experimentSelect">실험 선택</label><select id="experimentSelect"><option value="ironCopper">철 못을 황산구리 수용액에 넣기</option><option value="magnesiumAcid">마그네슘과 묽은 염산의 반응</option><option value="copperOxide">산화 구리(II)를 탄소와 함께 가열</option></select>
+<div id="experimentStory" class="rule"></div><div id="experimentQuestion"></div><div id="experimentChoices"></div><button class="btn" id="checkExperiment">판단 확인</button><div id="experimentFeedback" aria-live="polite"></div>
+</div>
+
+<div class="card">
+<h2>문제 설정</h2>
+<p class="muted">난이도와 문제 유형을 선택하면 해당 문제 은행에서 무작위로 출제합니다. 한 라운드에서는 같은 문제가 중복되지 않습니다.</p>
+<div class="grid2">
+<div><label for="difficulty">난이도</label><select id="difficulty"><option value="all">전체 난이도</option><option value="easy">쉬움</option><option value="medium">보통</option><option value="hard">어려움</option></select></div>
+<div><label for="category">문제 유형</label><select id="category"><option value="all">전체 유형</option><option value="oxidation">산화수 계산</option><option value="identify">산화·환원 판별</option><option value="agents">산화제·환원제</option><option value="equation">반응식·응용</option></select></div>
+</div>
+<div class="statrow" style="margin-top:12px"><div class="stat">문제 은행 <b id="bankCount">0</b>문제</div><div class="stat">현재 라운드 <b id="roundCount">0</b>문제</div><div class="stat">누적 정답 <b id="totalCorrect">0</b></div><div class="stat">시도 <b id="totalAttempt">0</b></div></div>
+<button class="btn" id="startRound">선택 조건으로 새 라운드 시작</button>
+<button class="btn secondary" id="randomProblem">랜덤 문제 하나 풀기</button>
+</div>
+
+<div class="card" id="questionCard">
+<div class="statrow"><span class="pill" id="qDifficulty">보통</span><span class="pill" id="qCategory">산화수 계산</span><span class="pill" id="qNumber">문제</span></div>
+<div class="equation" id="qEquation">문제를 시작하세요.</div>
+<h2 id="qTitle">준비됐나요?</h2>
+<p class="muted" id="qPrompt">위에서 난이도와 유형을 선택한 뒤 새 라운드를 시작하세요.</p>
+<div class="progress"><div id="qProgress"></div></div><p class="muted small" id="qProgressText">라운드 진행률</p>
+<div id="answerArea"></div>
+<button class="btn" id="checkAnswer">답 확인</button><button class="btn secondary" id="hintButton">힌트 보기</button>
+<div id="feedback" aria-live="polite"></div><div id="hintArea" class="hint hidden"></div>
+<button class="btn hidden" id="nextQuestion">다음 단계 / 다음 문제 →</button>
+</div>
+
+
+</section>
+
+<section id="studyPanel" class="hidden">
+<div class="card"><h2>나의 학습 대시보드</h2><p class="muted">학습 기록은 이 브라우저에 저장됩니다. 다른 기기와 자동 동기화되지는 않습니다.</p><div class="grid3"><div class="stat">누적 시도 <b id="dashAttempts">0</b></div><div class="stat">누적 정답 <b id="dashCorrect">0</b></div><div class="stat">정답률 <b id="dashRate">0%</b></div></div><div class="progress"><div id="masteryBar"></div></div><p class="muted small" id="masteryText">문제를 풀면 숙달도가 계산됩니다.</p><h3>유형별 정답률</h3><div id="categoryStats" class="tablewrap"></div><button class="btn secondary" id="resetStats">학습 기록 초기화</button></div>
+<div class="card"><h2>🎯 단계별 풀이 연습</h2><p class="muted">정답을 바로 고르기 전에 판단 근거를 순서대로 확인합니다.</p><div class="grid2"><div><label for="stepDifficulty">난이도</label><select id="stepDifficulty"><option value="easy">쉬움</option><option value="medium">보통</option><option value="hard">어려움</option><option value="all">전체</option></select></div><div><label for="stepCategory">유형</label><select id="stepCategory"><option value="all">전체 유형</option><option value="oxidation">산화수 계산</option><option value="identify">산화·환원 판별</option><option value="agents">산화제·환원제</option><option value="equation">반응식·응용</option></select></div></div><button class="btn" id="startStep">단계별 문제 시작</button><div id="stepArea" class="hidden"><div class="equation" id="stepEquation"></div><h3 id="stepTitle"></h3><p id="stepPrompt" class="muted"></p><div id="stepAnswerArea"></div><div id="stepFeedback"></div><button class="btn" id="stepCheck">단계 확인</button><button class="btn secondary" id="stepNext" disabled>다음 단계 →</button></div></div>
+<div class="card"><h2>🔁 오답 노트와 맞춤 복습</h2><p class="muted">틀린 문제를 저장하고 비슷한 유형을 다시 풀어 보세요.</p><div class="statrow"><div class="stat">오답 누적 <b id="wrongCount">0</b></div><div class="stat">복습 대기 <b id="reviewCount">0</b></div></div><div id="wrongList"></div><button class="btn" id="reviewWrong">오답 복습 시작</button><button class="btn secondary" id="retrySimilar">취약 유형 유사 문제 풀기</button></div>
+<div class="card"><h2>⏱️ 시험 모드</h2><p class="muted">문제 10개를 제한 시간 안에 풀고 결과를 확인합니다.</p><div class="grid2"><div><label for="examMinutes">제한 시간</label><select id="examMinutes"><option value="5">5분</option><option value="10" selected>10분</option><option value="15">15분</option></select></div><div><label for="examLevel">난이도</label><select id="examLevel"><option value="all">전체</option><option value="easy">쉬움</option><option value="medium">보통</option><option value="hard">어려움</option></select></div></div><button class="btn" id="startExam">시험 시작</button><div id="examArea" class="hidden"><div class="statrow"><div class="stat">남은 시간 <b id="examTimer">10:00</b></div><div class="stat">문제 <b id="examIndex">1 / 10</b></div></div><div class="progress"><div id="examProgress"></div></div><div class="equation" id="examEquation"></div><h3 id="examTitle"></h3><p id="examPrompt" class="muted"></p><div id="examAnswerArea"></div><button class="btn" id="examSubmit">답안 제출 / 다음 문제</button><div id="examFeedback"></div></div><div id="examResult"></div></div>
+
+</section>
+
+
+
+
+
+</main><footer>산화·환원 집중 학습 · 학습 기록은 현재 브라우저에 저장됩니다.</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));["redoxPanel","conceptPanel","studyPanel"].forEach(id=>$(id).classList.toggle("hidden",id!==b.dataset.panel));if(b.dataset.panel==="conceptPanel")chooseElectronCase()}));
+
+// Each problem has a verified final answer and a short explanation.
+const Q=[];
+function add(id,difficulty,category,equation,title,prompt,answer,hint,explanation,kind="text",options=null,steps=null){
+ Q.push({id,difficulty,category,equation,title,prompt,answer,hint,explanation,kind,options,steps});
+}
+const O="oxidation", I="identify", A="agents", E="equation", easy="easy", med="medium", hard="hard";
+// Oxidation number calculations
+[
+["ox1",easy,"Na⁺ 이온의 Na 산화수","Na⁺","Na의 산화수는?","+1","단원자 이온의 산화수는 이온 전하와 같다.","Na⁺의 전하가 +1이므로 산화수도 +1입니다."],
+["ox2",easy,"산소 분자의 산화수","O₂","O₂에서 O의 산화수는?","0","홑원소 물질의 산화수는 0입니다.","O₂는 산소의 홑원소 물질이므로 산화수는 0입니다."],
+["ox3",easy,"물 속 산소의 산화수","H₂O","H₂O에서 O의 산화수는?","-2","H는 보통 +1이고, 중성 분자의 산화수 합은 0입니다.","2(+1)+x=0이므로 O는 -2입니다."],
+["ox4",easy,"염화 이온의 산화수","Cl⁻","Cl⁻에서 Cl의 산화수는?","-1","단원자 이온의 산화수는 전하와 같습니다.","Cl⁻의 산화수는 -1입니다."],
+["ox5",easy,"염화나트륨 속 염소","NaCl","Na는 +1입니다. Cl의 산화수는?","-1","중성 화합물의 산화수 합은 0입니다.","(+1)+x=0이므로 Cl은 -1입니다."],
+["ox6",easy,"이산화탄소 속 탄소","CO₂","O가 각각 -2일 때 C의 산화수는?","+4","x+2(-2)=0을 세우세요.","x-4=0이므로 C는 +4입니다."],
+["ox7",easy,"암모니아 속 질소","NH₃","H가 +1일 때 N의 산화수는?","-3","x+3(+1)=0입니다.","x+3=0이므로 N은 -3입니다."],
+["ox8",easy,"황화 이온","S²⁻","S²⁻에서 S의 산화수는?","-2","단원자 이온은 전하를 그대로 사용합니다.","산화수는 -2입니다."],
+["ox9",easy,"마그네슘 이온","Mg²⁺","Mg의 산화수는?","+2","단원자 이온의 산화수는 이온 전하와 같습니다.","Mg²⁺의 산화수는 +2입니다."],
+["ox10",easy,"철 금속","Fe","Fe(s)의 산화수는?","0","금속 홑원소는 산화수 0입니다.","Fe는 홑원소 물질이므로 0입니다."],
+["ox11",easy,"과산화수소 속 산소","H₂O₂","H는 +1입니다. O의 산화수는?","-1","과산화물에서는 산소가 일반적인 -2가 아닙니다. 2(+1)+2x=0입니다.","각 O의 산화수는 -1입니다."],
+["ox12",easy,"염소 분자","Cl₂","Cl₂에서 Cl의 산화수는?","0","홑원소 분자의 산화수는 0입니다.","Cl₂의 Cl은 0입니다."],
+["ox13",med,"황산 이온 속 황","SO₄²⁻","O가 -2일 때 S의 산화수는?","+6","x+4(-2)=-2입니다.","x-8=-2이므로 S는 +6입니다."],
+["ox14",med,"질산 이온 속 질소","NO₃⁻","O가 -2일 때 N의 산화수는?","+5","x+3(-2)=-1입니다.","x-6=-1이므로 N은 +5입니다."],
+["ox15",med,"탄산 이온 속 탄소","CO₃²⁻","O가 -2일 때 C의 산화수는?","+4","x+3(-2)=-2입니다.","x-6=-2이므로 C는 +4입니다."],
+["ox16",med,"과망가니즈산 이온 속 Mn","MnO₄⁻","O가 -2일 때 Mn의 산화수는?","+7","x+4(-2)=-1입니다.","x-8=-1이므로 Mn은 +7입니다."],
+["ox17",med,"중크롬산 이온 속 Cr","Cr₂O₇²⁻","O가 -2일 때 Cr 하나의 산화수는?","+6","2x+7(-2)=-2입니다.","2x=12이므로 Cr은 +6입니다."],
+["ox18",med,"염소산 이온 속 Cl","ClO₃⁻","O가 -2일 때 Cl의 산화수는?","+5","x+3(-2)=-1입니다.","x-6=-1이므로 Cl은 +5입니다."],
+["ox19",med,"아황산 이온 속 S","SO₃²⁻","O가 -2일 때 S의 산화수는?","+4","x+3(-2)=-2입니다.","x-6=-2이므로 S는 +4입니다."],
+["ox20",med,"인산 이온 속 P","PO₄³⁻","O가 -2일 때 P의 산화수는?","+5","x+4(-2)=-3입니다.","x-8=-3이므로 P는 +5입니다."],
+["ox21",med,"질산 속 질소","HNO₃","H는 +1, O는 -2입니다. N은?","+5","(+1)+x+3(-2)=0입니다.","x=+5입니다."],
+["ox22",med,"황산 속 황","H₂SO₄","H는 +1, O는 -2입니다. S는?","+6","2(+1)+x+4(-2)=0입니다.","x=+6입니다."],
+["ox23",med,"염소산칼륨 속 Cl","KClO₃","K는 +1, O는 -2입니다. Cl은?","+5","(+1)+x+3(-2)=0입니다.","x=+5입니다."],
+["ox24",med,"이산화질소 속 질소","NO₂","O는 -2입니다. N은?","+4","x+2(-2)=0입니다.","x=+4입니다."],
+["ox25",med,"일산화질소 속 질소","NO","O는 -2입니다. N은?","+2","x+(-2)=0입니다.","x=+2입니다."],
+["ox26",hard,"산소 플루오린화물","OF₂","F는 항상 -1입니다. O의 산화수는?","+2","x+2(-1)=0입니다. 이 화합물에서는 O가 양의 산화수를 가집니다.","O의 산화수는 +2입니다."],
+["ox27",hard,"수소화나트륨","NaH","Na는 +1입니다. H의 산화수는?","-1","금속 수소화물에서 H는 보통 -1입니다.","(+1)+x=0이므로 H는 -1입니다."],
+["ox28",hard,"과산화나트륨","Na₂O₂","Na는 +1입니다. O 하나의 산화수는?","-1","과산화물에서 O의 산화수는 -1입니다.","2(+1)+2x=0이므로 x=-1입니다."],
+["ox29",hard,"초과산화칼륨","KO₂","K는 +1입니다. O의 평균 산화수는?","-1/2","K(+1)+O 두 개의 합=0입니다. 산소 원자 두 개의 평균값을 구합니다.","O₂ 부분의 총 산화수는 -1이므로 O 하나의 평균은 -1/2입니다."],
+["ox30",hard,"티오황산 이온의 평균 산화수","S₂O₃²⁻","O가 -2일 때 S 두 원자의 평균 산화수는?","+2","2x+3(-2)=-2입니다. 두 S의 평균을 구합니다.","2x=4이므로 평균 산화수는 +2입니다. 실제 두 S의 산화수는 서로 같지 않습니다."]
+].forEach(x=>add(x[0],x[1],O,x[3],x[2],x[4],x[5],x[6],x[7],"text"));
+// Redox identification and agents
+[
+["id1",easy,I,"Zn + Cu²⁺ → Zn²⁺ + Cu","아연의 변화","Zn의 산화수는 0에서 +2로 변합니다. 무엇인가요?","산화","산화수 증가가 산화입니다.","Zn은 전자를 잃어 산화됩니다.","choice",["산화","환원","변화 없음"]],
+["id2",easy,I,"Zn + Cu²⁺ → Zn²⁺ + Cu","구리 이온의 변화","Cu의 산화수는 +2에서 0으로 변합니다. 무엇인가요?","환원","산화수 감소가 환원입니다.","Cu²⁺는 전자를 얻어 환원됩니다.","choice",["산화","환원","변화 없음"]],
+["ag1",easy,A,"Zn + Cu²⁺ → Zn²⁺ + Cu","환원제 찾기","이 반응에서 환원제는 무엇인가요?","Zn","환원제는 다른 물질을 환원시키며 자신은 산화됩니다.","Zn이 산화되면서 Cu²⁺에 전자를 주므로 환원제입니다.","choice",["Zn","Cu²⁺","Cu"]],
+["ag2",easy,A,"Zn + Cu²⁺ → Zn²⁺ + Cu","산화제 찾기","이 반응에서 산화제는 무엇인가요?","Cu²⁺","산화제는 다른 물질을 산화시키며 자신은 환원됩니다.","Cu²⁺가 전자를 얻어 환원되므로 산화제입니다.","choice",["Zn","Cu²⁺","Cu"]],
+["id3",easy,I,"2Mg + O₂ → 2MgO","마그네슘의 변화","Mg의 산화수는 0에서 +2로 변합니다.","산화","산화수 증가가 산화입니다.","Mg는 전자를 잃으므로 산화됩니다.","choice",["산화","환원"]],
+["id4",easy,I,"2Mg + O₂ → 2MgO","산소의 변화","O의 산화수는 0에서 -2로 변합니다.","환원","산화수 감소가 환원입니다.","O₂는 전자를 얻어 환원됩니다.","choice",["산화","환원"]],
+["ag3",easy,A,"2Mg + O₂ → 2MgO","산화제","산화제는 무엇인가요?","O₂","산화제는 자신이 환원되는 물질입니다.","O₂가 Mg를 산화시키며 자신은 환원됩니다.","choice",["Mg","O₂","MgO"]],
+["ag4",easy,A,"2Mg + O₂ → 2MgO","환원제","환원제는 무엇인가요?","Mg","환원제는 자신이 산화되는 물질입니다.","Mg는 산화되므로 환원제입니다.","choice",["Mg","O₂","MgO"]],
+["id5",med,I,"Fe₂O₃ + 3CO → 2Fe + 3CO₂","철(III) 산화물의 변화","Fe의 산화수는 +3에서 0으로 변합니다.","환원","산화수가 감소했습니다.","Fe(III)가 Fe로 바뀌며 환원됩니다.","choice",["산화","환원"]],
+["id6",med,I,"Fe₂O₃ + 3CO → 2Fe + 3CO₂","일산화탄소 속 탄소","C의 산화수는 CO에서 +2, CO₂에서 +4입니다. C는?","산화","+2에서 +4로 증가했습니다.","CO의 탄소가 산화됩니다.","choice",["산화","환원"]],
+["ag5",med,A,"Fe₂O₃ + 3CO → 2Fe + 3CO₂","산화제","산화제는 무엇인가요?","Fe₂O₃","산화되는 CO를 산화시키는 쪽을 찾습니다.","Fe₂O₃ 속 Fe가 환원되므로 Fe₂O₃가 산화제입니다.","choice",["Fe₂O₃","CO","Fe"]],
+["ag6",med,A,"Fe₂O₃ + 3CO → 2Fe + 3CO₂","환원제","환원제는 무엇인가요?","CO","자신이 산화되는 물질이 환원제입니다.","CO는 CO₂로 산화되므로 환원제입니다.","choice",["Fe₂O₃","CO","CO₂"]],
+["id7",med,I,"Cl₂ + 2OH⁻ → Cl⁻ + ClO⁻ + H₂O","불균등화 반응","Cl₂의 일부는 -1, 일부는 +1이 됩니다. 이 반응 유형은?","불균등화","같은 원소가 동시에 산화와 환원을 겪는지 확인하세요.","Cl₂의 Cl 중 일부는 환원되고 일부는 산화되므로 불균등화입니다.","choice",["불균등화","중화","침전"]],
+["ag7",med,A,"Cl₂ + 2OH⁻ → Cl⁻ + ClO⁻ + H₂O","불균등화의 산화제·환원제","이 반응에서 산화제와 환원제 역할을 하는 물질은?","Cl₂","같은 반응물이 산화와 환원을 모두 겪을 수 있습니다.","Cl₂가 일부 환원되고 일부 산화되므로 두 역할을 모두 합니다.","choice",["Cl₂","OH⁻","H₂O"]],
+["id8",med,I,"2H₂O₂ → 2H₂O + O₂","과산화수소의 반응","O는 H₂O₂에서 -1입니다. 생성물에서 O는 -2와 0으로 변합니다. 유형은?","불균등화","한 원소가 더 낮은 산화수와 더 높은 산화수로 나뉩니다.","산소 일부는 환원되고 일부는 산화됩니다.","choice",["불균등화","단순 산화","단순 환원"]],
+["ag8",med,A,"2H₂O₂ → 2H₂O + O₂","과산화수소의 역할","H₂O₂는 이 반응에서 어떤 역할을 하나요?","산화제이자 환원제","같은 물질에서 산화와 환원이 동시에 일어납니다.","H₂O₂는 일부 환원되고 일부 산화되어 두 역할을 합니다.","choice",["산화제만","환원제만","산화제이자 환원제"]],
+["id9",med,I,"2Fe²⁺ + Cl₂ → 2Fe³⁺ + 2Cl⁻","철 이온의 변화","Fe²⁺가 Fe³⁺가 될 때 철은?","산화","+2에서 +3으로 산화수가 증가합니다.","Fe²⁺는 전자를 잃고 산화됩니다.","choice",["산화","환원"]],
+["ag9",med,A,"2Fe²⁺ + Cl₂ → 2Fe³⁺ + 2Cl⁻","염소의 역할","Cl₂는 Cl⁻로 바뀝니다. Cl₂의 역할은?","산화제","Cl₂의 산화수는 0에서 -1로 감소합니다.","Cl₂가 환원되므로 산화제입니다.","choice",["산화제","환원제"]],
+["id10",hard,I,"2KClO₃ → 2KCl + 3O₂","염소의 변화","KClO₃에서 Cl은 +5, KCl에서 Cl은 -1입니다. Cl은?","환원","산화수가 +5에서 -1로 감소합니다.","염소가 환원됩니다.","choice",["산화","환원"]],
+["id11",hard,I,"2KClO₃ → 2KCl + 3O₂","산소의 변화","KClO₃에서 O는 -2, O₂에서 O는 0입니다. O는?","산화","산화수가 -2에서 0으로 증가합니다.","산소가 산화됩니다.","choice",["산화","환원"]],
+["ag10",hard,A,"2KClO₃ → 2KCl + 3O₂","염소산칼륨의 역할","KClO₃에서 Cl은 환원되고 O는 산화됩니다. KClO₃는?","산화제이자 환원제","같은 화합물 안에서 서로 다른 원소가 산화·환원될 수 있습니다.","KClO₃는 환원되는 Cl을 포함해 산화제로 작용하고, 산화되는 O를 포함해 환원제로도 작용합니다.","choice",["산화제만","환원제만","산화제이자 환원제"]],
+["id12",hard,I,"2KMnO₄ + 16HCl → 2KCl + 2MnCl₂ + 8H₂O + 5Cl₂","망가니즈의 변화","Mn은 KMnO₄에서 +7, MnCl₂에서 +2입니다. Mn은?","환원","+7에서 +2로 감소합니다.","Mn은 환원됩니다.","choice",["산화","환원"]],
+["id13",hard,I,"2KMnO₄ + 16HCl → 2KCl + 2MnCl₂ + 8H₂O + 5Cl₂","염화 이온의 변화","HCl의 Cl(-1) 일부는 Cl₂(0)가 됩니다. 이 변화는?","산화","-1에서 0으로 증가합니다.","Cl⁻ 일부가 전자를 잃어 산화됩니다.","choice",["산화","환원"]],
+["ag11",hard,A,"2KMnO₄ + 16HCl → 2KCl + 2MnCl₂ + 8H₂O + 5Cl₂","산화제","이 반응의 산화제는 무엇인가요?","KMnO₄","산화제는 자신이 환원됩니다.","Mn(+7)이 Mn(+2)로 환원되므로 KMnO₄가 산화제입니다.","choice",["KMnO₄","HCl","KCl"]],
+["ag12",hard,A,"2KMnO₄ + 16HCl → 2KCl + 2MnCl₂ + 8H₂O + 5Cl₂","환원제","이 반응의 환원제는 무엇인가요?","HCl","Cl⁻ 일부가 Cl₂로 산화됩니다.","HCl의 Cl⁻가 산화되므로 HCl이 환원제입니다.","choice",["KMnO₄","HCl","H₂O"]],
+["id14",hard,I,"2Na + 2H₂O → 2NaOH + H₂","수소의 변화","물 속 H는 +1, H₂에서는 0입니다. 수소는?","환원","+1에서 0으로 감소합니다.","물 속 수소가 환원됩니다.","choice",["산화","환원"]],
+["id15",hard,I,"2Na + 2H₂O → 2NaOH + H₂","나트륨의 변화","Na는 0에서 +1로 변합니다. 나트륨은?","산화","0에서 +1로 증가합니다.","Na가 산화됩니다.","choice",["산화","환원"]]
+].forEach(x=>add(...x));
+
+// Equation completion and application questions
+[
+["eq1",med,E,"Zn + Cu²⁺ → Zn²⁺ + Cu","아연의 반쪽 반응","Zn → Zn²⁺ + ?e⁻ 에서 전자 수는?","2","전하가 0에서 +2로 변하므로 전하를 맞추세요.","Zn → Zn²⁺ + 2e⁻입니다."],
+["eq2",med,E,"Cu²⁺ + ?e⁻ → Cu","구리 이온의 반쪽 반응","Cu²⁺가 Cu가 되려면 전자 몇 개를 얻나요?","2","전하 +2를 0으로 만들 전자가 필요합니다.","Cu²⁺ + 2e⁻ → Cu입니다."],
+["eq3",med,E,"Fe²⁺ → Fe³⁺ + ?e⁻","철(II)의 산화","Fe²⁺가 Fe³⁺가 될 때 방출하는 전자 수는?","1","전하가 +2에서 +3으로 증가합니다.","전자 1개를 잃습니다."],
+["eq4",med,E,"Cl₂ + 2e⁻ → ?Cl⁻","염소의 환원","Cl₂ 1분자가 얻는 전자 수는 2개입니다. 생성되는 Cl⁻의 계수는?","2","Cl₂에는 Cl 원자가 2개 있습니다.","Cl₂ + 2e⁻ → 2Cl⁻입니다."],
+["eq5",med,E,"Mg → Mg²⁺ + ?e⁻","마그네슘의 반쪽 반응","Mg가 Mg²⁺가 될 때 전자 계수는?","2","전하가 0에서 +2가 됩니다.","전자 2개를 잃습니다."],
+["eq6",med,E,"2I⁻ → I₂ + ?e⁻","아이오딘화 이온의 산화","반응식의 전자 계수는?","2","왼쪽 전하 -2와 오른쪽 전하 0을 비교합니다.","전자 2개가 방출됩니다."],
+["eq7",hard,E,"MnO₄⁻ → Mn²⁺ (산성 용액)","과망가니즈산 이온 반쪽 반응","MnO₄⁻가 Mn²⁺로 환원될 때 필요한 전자 수는?","5","Mn은 +7에서 +2로 감소합니다.","Mn은 전자 5개를 얻습니다."],
+["eq8",hard,E,"Cr₂O₇²⁻ → 2Cr³⁺ (산성 용액)","중크롬산 이온 반쪽 반응","Cr 두 원자의 총 산화수는 +12에서 +6으로 변합니다. 필요한 전자 수는?","6","Cr 한 원자당 3개씩, 두 원자입니다.","전자 6개를 얻습니다."],
+["eq9",hard,E,"2Fe²⁺ → 2Fe³⁺ + ?e⁻","철 이온의 전자 수","Fe²⁺ 두 개가 Fe³⁺ 두 개가 될 때 전자 계수는?","2","각 Fe²⁺가 전자 1개씩 잃습니다.","총 전자 2개가 방출됩니다."],
+["eq10",hard,E,"2Al + 3Cu²⁺ → 2Al³⁺ + 3Cu","전자 이동량","이 반응에서 이동하는 전자의 총수는?","6","Al 하나는 전자 3개를 잃습니다. Al 두 개를 고려하세요.","Al 두 개가 총 6e⁻를 잃고 Cu²⁺ 세 개가 총 6e⁻를 얻습니다."],
+["eq11",hard,E,"2H₂O₂ → 2H₂O + O₂","과산화수소 반응","이 반응은 산화와 환원이 동시에 일어나는 어떤 반응인가요?","불균등화","같은 원소의 산화수가 두 방향으로 변하는지 보세요.","O(-1)의 일부는 -2로, 일부는 0으로 변합니다."],
+["eq12",hard,E,"MnO₄⁻ + 5Fe²⁺ + 8H⁺ → Mn²⁺ + 5Fe³⁺ + 4H₂O","산성 용액 반응","Fe²⁺ 5개가 Fe³⁺로 산화될 때 방출되는 전자는 총 몇 개인가요?","5","Fe 하나가 전자 1개를 잃습니다.","Fe²⁺ 5개가 전자 5개를 방출합니다."],
+["eq13",hard,E,"2Al + Fe₂O₃ → Al₂O₃ + 2Fe","알루미늄의 변화","Al은 0에서 +3으로 변합니다. Al 원자 2개가 잃는 전자는 총 몇 개인가요?","6","Al 하나당 전자 3개를 잃습니다.","총 6개의 전자를 잃습니다."],
+["eq14",hard,E,"Cu + 2Ag⁺ → Cu²⁺ + 2Ag","구리의 변화","Cu 1개가 Cu²⁺가 되며 방출하는 전자는 몇 개인가요?","2","전하가 0에서 +2로 증가합니다.","전자 2개를 방출합니다."]
+].forEach(x=>add(...x));
+
+const catNames={[O]:"산화수 계산",[I]:"산화·환원 판별",[A]:"산화제·환원제",[E]:"반응식·응용"};
+const diffNames={[easy]:"쉬움",[med]:"보통",[hard]:"어려움"};
+let deck=[],current=null,passed=false,hintShown=false,attempts=0,correct=0,roundNo=0,roundIndex=0;
+function filteredBank(){return Q.filter(q=>($("difficulty").value==="all"||q.difficulty===$("difficulty").value)&&($("category").value==="all"||q.category===$("category").value))}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function startRound(single=false){
+ const pool=shuffle(filteredBank());
+ if(!pool.length){$("feedback").innerHTML='<div class="feedback bad">선택한 조건에 해당하는 문제가 없습니다.</div>';return}
+ deck=single?pool.slice(0,1):pool;roundNo++;roundIndex=0;loadQuestion();
+}
+function loadQuestion(){
+ current=deck.shift();passed=false;hintShown=false;
+ $("feedback").innerHTML="";$("hintArea").classList.add("hidden");$("nextQuestion").classList.add("hidden");$("checkAnswer").disabled=false;$("hintButton").disabled=false;
+ $("qDifficulty").textContent=diffNames[current.difficulty];$("qCategory").textContent=catNames[current.category];$("qNumber").textContent=`라운드 ${roundNo} · ${roundIndex+1}`;
+ $("qEquation").textContent=current.equation;$("qTitle").textContent=current.title;$("qPrompt").textContent=current.prompt;
+ const total=roundIndex+deck.length+1;$("qProgress").style.width=(roundIndex/total*100)+"%";$("qProgressText").textContent=`현재 라운드: ${roundIndex+1} / ${total} 문제`;
+ const area=$("answerArea");
+ if(current.kind==="choice"){
+   area.innerHTML='<label>정답 선택</label>'+current.options.map((o,i)=>`<label class="choice"><input type="radio" name="answer" value="${o.replace(/&/g,"&amp;").replace(/"/g,"&quot;")}"><span>${o}</span></label>`).join("");
+ }else{
+   area.innerHTML=`<label for="answerInput">정답 입력</label><input id="answerInput" autocomplete="off" placeholder="${current.category===O?'예: +4 또는 -2':'정답을 입력하세요'}"><p class="muted small">숫자 답은 부호를 포함해 입력하세요. 예: +6, -2, 0</p>`;
+ }
+ updateStats();
+}
+function norm(v){return String(v).trim().replace(/\s/g,"").replace(/−/g,"-").replace(/^\+/,"").toLowerCase()}
+function getAnswer(){if(current.kind==="choice")return document.querySelector('input[name="answer"]:checked')?.value??null;return $("answerInput")?.value??null}
+function checkQuestion(){
+ if(!current||passed)return;
+ const v=getAnswer();if(v===null||v===""){ $("feedback").innerHTML='<div class="feedback bad">먼저 답을 입력하거나 선택하세요.</div>';return}
+ attempts++;const ok=norm(v)===norm(current.answer);
+ if(ok){correct++;passed=true;$("feedback").innerHTML=`<div class="feedback good"><b>정답입니다!</b><br>${current.explanation}</div>`;$("checkAnswer").disabled=true;$("hintButton").disabled=true;$("nextQuestion").classList.remove("hidden");$("nextQuestion").textContent=deck.length?`다음 문제 (${deck.length}문제 남음) →`:"라운드 완료 보기 →";}
+ else{$("feedback").innerHTML='<div class="feedback bad">아직 정답이 아닙니다. 산화수 규칙이나 힌트를 참고해 다시 시도하세요.</div>'}
+ updateStats();
+}
+function nextQuestion(){
+ if(!passed)return;
+ if(deck.length){roundIndex++;loadQuestion()}
+ else{$("qProgress").style.width="100%";$("qProgressText").textContent="라운드 완료";$("qTitle").textContent="🎉 라운드를 완료했습니다!";$("qPrompt").textContent="새 라운드를 시작하면 선택한 조건에 맞춰 문제를 다시 무작위로 섞습니다.";$("answerArea").innerHTML="";$("checkAnswer").disabled=true;$("hintButton").disabled=true;$("nextQuestion").classList.add("hidden");$("feedback").innerHTML=`<div class="feedback good">이번 라운드를 완료했습니다. 정답 ${correct}회 / 시도 ${attempts}회</div>`}
+ updateStats();
+}
+function showHint(){if(!current)return;$("hintArea").textContent="힌트: "+current.hint;$("hintArea").classList.remove("hidden");hintShown=true}
+function updateStats(){$("bankCount").textContent=filteredBank().length;$("roundCount").textContent=deck.length+(current?1:0);$("totalCorrect").textContent=correct;$("totalAttempt").textContent=attempts}
+$("startRound").addEventListener("click",()=>startRound(false));$("randomProblem").addEventListener("click",()=>startRound(true));$("checkAnswer").addEventListener("click",checkQuestion);$("hintButton").addEventListener("click",showHint);$("nextQuestion").addEventListener("click",nextQuestion);
+$("difficulty").addEventListener("change",()=>{deck=[];current=null;$("qTitle").textContent="조건이 변경되었습니다";$("qPrompt").textContent="새 라운드를 시작해 주세요.";$("answerArea").innerHTML="";$("qEquation").textContent="문제 대기 중";$("feedback").innerHTML="";updateStats()});
+$("category").addEventListener("change",()=>{deck=[];current=null;$("qTitle").textContent="조건이 변경되었습니다";$("qPrompt").textContent="새 라운드를 시작해 주세요.";$("answerArea").innerHTML="";$("qEquation").textContent="문제 대기 중";$("feedback").innerHTML="";updateStats()});
+updateStats();
+
+// ===== 학습 도구 확장 =====
+const STORAGE_KEY='chemistryLabPlus.v2';
+let saved={attempts:0,correct:0,byCat:{},wrongIds:[],seenIds:[]};
+try{const raw=localStorage.getItem(STORAGE_KEY);if(raw)saved={...saved,...JSON.parse(raw)}}catch(e){}
+attempts=saved.attempts||attempts;correct=saved.correct||correct;
+function persist(){saved.attempts=attempts;saved.correct=correct;try{localStorage.setItem(STORAGE_KEY,JSON.stringify(saved))}catch(e){};renderDashboard()}
+function recordAnswer(q,ok){const c=q.category;saved.byCat[c] ||= {attempts:0,correct:0};saved.byCat[c].attempts++;if(ok)saved.byCat[c].correct++;if(!ok&&!saved.wrongIds.includes(q.id))saved.wrongIds.push(q.id);if(ok){saved.wrongIds=saved.wrongIds.filter(id=>id!==q.id);saved.seenIds.push(q.id)}persist()}
+const originalUpdateStats=updateStats;
+updateStats=function(){originalUpdateStats();persist()};
+// Fixes numeric zero answers and records first response per question attempt.
+checkQuestion=function(){if(!current||passed)return;const v=getAnswer();if(v===null||String(v).trim()===''){$('feedback').innerHTML='<div class="feedback bad">먼저 답을 입력하거나 선택하세요.</div>';return}attempts++;const ok=norm(v)===norm(current.answer);recordAnswer(current,ok);if(ok){correct++;passed=true;$('feedback').innerHTML=`<div class="feedback good"><b>정답입니다!</b><br>${current.explanation}</div>`;$('checkAnswer').disabled=true;$('hintButton').disabled=true;$('nextQuestion').classList.remove('hidden');$('nextQuestion').textContent=deck.length?`다음 문제 (${deck.length}문제 남음) →`:'라운드 완료 보기 →'}else{$('feedback').innerHTML=`<div class="feedback bad"><b>아직 정답이 아닙니다.</b><br>${diagnose(current,v)}<br>힌트를 확인하고 다시 시도해 보세요.</div>`}updateStats()};
+function diagnose(q,v){if(q.category===O)return '산화수 규칙을 먼저 확인하고, 화합물 전체 산화수의 합이 전하와 일치하는지 점검하세요.';if(q.category===I)return '산화수 변화의 방향을 확인하세요. 증가하면 산화, 감소하면 환원입니다.';if(q.category===A)return '산화제는 자신이 환원되고, 환원제는 자신이 산화됩니다.';return '반응 전후 원자 수와 전하를 비교해 계수 또는 전자 수를 확인하세요.'}
+function renderDashboard(){if(!$('dashAttempts'))return;$('dashAttempts').textContent=attempts;$('dashCorrect').textContent=correct;const rate=attempts?Math.round(correct/attempts*100):0;$('dashRate').textContent=rate+'%';$('masteryBar').style.width=rate+'%';$('masteryText').textContent=attempts?`누적 정답률 ${rate}% · 정답을 맞히는 것뿐 아니라 풀이 근거도 설명해 보세요.`:'문제를 풀면 숙달도가 계산됩니다.';const names={oxidation:'산화수 계산',identify:'산화·환원 판별',agents:'산화제·환원제',equation:'반응식·응용'};const rows=Object.entries(saved.byCat||{}).filter(([k,v])=>v.attempts).map(([k,v])=>`<tr><td>${names[k]||k}</td><td>${v.correct}/${v.attempts}</td><td>${Math.round(v.correct/v.attempts*100)}%</td></tr>`).join('');$('categoryStats').innerHTML=rows?`<table><thead><tr><th>유형</th><th>정답/시도</th><th>정답률</th></tr></thead><tbody>${rows}</tbody></table>`:'아직 기록이 없습니다.';$('wrongCount').textContent=(saved.wrongIds||[]).length;$('reviewCount').textContent=(saved.wrongIds||[]).length;const wrong=(saved.wrongIds||[]).map(id=>Q.find(q=>q.id===id)).filter(Boolean);$('wrongList').innerHTML=wrong.length?wrong.slice(0,8).map(q=>`<div class="wrong-item"><b>${q.title}</b><div class="muted small">${q.equation} · ${catNames[q.category]}</div></div>`).join(''):'오답이 없습니다. 문제를 풀면 복습 목록이 만들어집니다.'}
+$('resetStats').addEventListener('click',()=>{if(confirm('이 브라우저에 저장된 학습 기록을 초기화할까요?')){saved={attempts:0,correct:0,byCat:{},wrongIds:[],seenIds:[]};attempts=0;correct=0;persist();updateStats()}});
+// Keep rounds short and non-repeating: 5 questions per selected level, or 5 per level for all.
+startRound=function(single=false){let pool=filteredBank();if(!pool.length){$('feedback').innerHTML='<div class="feedback bad">선택한 조건에 해당하는 문제가 없습니다.</div>';return}if(single)pool=shuffle(pool).slice(0,1);else if($('difficulty').value==='all'){pool=['easy','medium','hard'].flatMap(level=>shuffle(pool.filter(q=>q.difficulty===level)).slice(0,5))}else pool=shuffle(pool).slice(0,5);deck=shuffle(pool);roundNo++;roundIndex=0;loadQuestion()};
+// Guided solution mode
+let stepQ=null,stepN=0,stepDeck=[];
+function stepsFor(q){if(q.category===O)return [{t:'1단계 · 규칙 선택',p:'산화수를 구할 때 먼저 무엇을 확인하나요?',opts:['홑원소인지, 이온인지, 화합물인지','원자 번호가 큰 원소인지','분자량이 큰지'],a:'홑원소인지, 이온인지, 화합물인지',why:'물질의 종류에 따라 산화수 규칙이 달라집니다.'},{t:'2단계 · 합 세우기',p:'산화수의 합은 무엇과 같아야 하나요?',opts:['항상 0','중성 분자는 0, 다원자 이온은 전체 전하','항상 +1'],a:'중성 분자는 0, 다원자 이온은 전체 전하',why:'전체 산화수의 합은 입자의 전체 전하와 같습니다.'},{t:'3단계 · 최종 답',p:q.prompt,input:true,a:q.answer,why:q.explanation}];if(q.category===I)return [{t:'1단계 · 변화 확인',p:'산화수 변화에서 무엇을 비교하나요?',opts:['반응 전과 후','원자 번호','물질의 색'],a:'반응 전과 후',why:'같은 원소의 산화수를 반응 전후로 비교합니다.'},{t:'2단계 · 규칙 적용',p:'산화수가 증가하면 어떤 변화인가요?',opts:['산화','환원','변화 없음'],a:'산화',why:'산화수 증가를 산화, 감소를 환원이라고 합니다.'},{t:'3단계 · 최종 답',p:q.prompt,input:q.kind!=='choice',opts:q.options,a:q.answer,why:q.explanation}];if(q.category===A)return [{t:'1단계 · 핵심 개념',p:'산화제는 자신이 어떻게 되나요?',opts:['환원된다','산화된다','변화가 없다'],a:'환원된다',why:'산화제는 상대를 산화시키며 자신은 환원됩니다.'},{t:'2단계 · 역할 판단',p:'환원제는 자신이 어떻게 되나요?',opts:['산화된다','환원된다','항상 침전한다'],a:'산화된다',why:'환원제는 상대를 환원시키며 자신은 산화됩니다.'},{t:'3단계 · 최종 답',p:q.prompt,input:q.kind!=='choice',opts:q.options,a:q.answer,why:q.explanation}];return [{t:'1단계 · 무엇을 확인할까?',p:'전자 이동 문제에서 먼저 확인할 것은?',opts:['산화수 또는 전하 변화','물질의 색','반응 시간'],a:'산화수 또는 전하 변화',why:'산화수·전하 변화로 전자 수를 판단합니다.'},{t:'2단계 · 전자 수',p:'산화수 변화량과 원자 수를 함께 고려해야 하나요?',opts:['예','아니요'],a:'예',why:'원자 하나의 변화량에 해당 원자 수를 곱합니다.'},{t:'3단계 · 최종 답',p:q.prompt,input:q.kind!=='choice',opts:q.options,a:q.answer,why:q.explanation}]}
+function showStep(){stepQ=stepDeck.shift();if(!stepQ){$('stepFeedback').innerHTML='<div class="feedback good">단계별 연습을 마쳤습니다. 새 문제를 시작해 보세요.</div>';$('stepTitle').textContent='연습 완료';$('stepPrompt').textContent='';$('stepAnswerArea').innerHTML='';$('stepCheck').disabled=true;$('stepNext').disabled=true;return}stepN=0;$('stepArea').classList.remove('hidden');$('stepEquation').textContent=stepQ.equation;$('stepTitle').textContent=stepQ.title;$('stepFeedback').innerHTML='';renderStepPart()}
+function renderStepPart(){const st=stepsFor(stepQ)[stepN];$('stepPrompt').textContent=st.p;$('stepTitle').textContent=st.t+' — '+stepQ.title;$('stepFeedback').innerHTML='';$('stepNext').disabled=true;$('stepCheck').disabled=false;if(st.input){$('stepAnswerArea').innerHTML=`<label>최종 답 입력</label><input id="stepInput" placeholder="정답을 입력하세요">`}else{$('stepAnswerArea').innerHTML=(st.opts||[]).map((o,i)=>`<label class="step-option"><input type="radio" name="stepChoice" value="${o.replace(/"/g,'&quot;')}"><span>${o}</span></label>`).join('')}}
+$('startStep').addEventListener('click',()=>{let pool=Q.filter(q=>($('stepDifficulty').value==='all'||q.difficulty===$('stepDifficulty').value)&&($('stepCategory').value==='all'||q.category===$('stepCategory').value));stepDeck=shuffle(pool).slice(0,5);if(!stepDeck.length)return;showStep()});
+$('stepCheck').addEventListener('click',()=>{if(!stepQ)return;const st=stepsFor(stepQ)[stepN];const val=st.input?$('stepInput')?.value:document.querySelector('input[name="stepChoice"]:checked')?.value;if(val==null||String(val).trim()===''){$('stepFeedback').innerHTML='<div class="feedback bad">답을 선택하거나 입력하세요.</div>';return}if(norm(val)===norm(st.a)){$('stepFeedback').innerHTML=`<div class="feedback good">맞았습니다. ${st.why}</div>`;$('stepCheck').disabled=true;$('stepNext').disabled=false}else{$('stepFeedback').innerHTML=`<div class="feedback bad">다시 생각해 보세요. ${st.why}</div>`}});
+$('stepNext').addEventListener('click',()=>{stepN++;if(stepN>=stepsFor(stepQ).length){$('stepFeedback').innerHTML=`<div class="feedback good">문제 풀이 완료! ${stepQ.explanation}</div>`;stepDeck.length?setTimeout(showStep,350):$('stepNext').disabled=true}else renderStepPart()});
+// Wrong-answer review and similar questions
+$('reviewWrong').addEventListener('click',()=>{const ids=saved.wrongIds||[];if(!ids.length){alert('아직 오답 노트가 비어 있습니다.');return}const pool=ids.map(id=>Q.find(q=>q.id===id)).filter(Boolean);deck=shuffle(pool);roundNo++;roundIndex=0;document.querySelector('[data-panel="redoxPanel"]').click();loadQuestion()});
+$('retrySimilar').addEventListener('click',()=>{const wrong=(saved.wrongIds||[]).map(id=>Q.find(q=>q.id===id)).filter(Boolean);if(!wrong.length){alert('오답이 쌓이면 취약 유형을 분석해 드립니다.');return}const cats=[...new Set(wrong.map(q=>q.category))];const pool=Q.filter(q=>cats.includes(q.category)&&!wrong.some(w=>w.id===q.id));deck=shuffle(pool).slice(0,5);if(!deck.length)deck=shuffle(Q.filter(q=>cats.includes(q.category))).slice(0,5);roundNo++;roundIndex=0;document.querySelector('[data-panel="redoxPanel"]').click();loadQuestion()});
+// Exam mode with countdown and no hints
+let examDeck=[],examPos=0,examRight=0,examSec=600,examInterval=null,examLocked=false;
+function finishExam(){clearInterval(examInterval);examInterval=null;$('examArea').classList.add('hidden');$('examResult').innerHTML=`<div class="feedback ${examRight>=7?'good':'bad'}"><b>시험 종료: ${examRight}/10점</b><br>${examRight>=8?'개념을 잘 이해하고 있습니다. 틀린 문제를 복습해 보세요.':examRight>=5?'기본 개념을 복습한 뒤 다시 도전해 보세요.':'산화수 규칙과 산화·환원 개념부터 차근차근 복습해 보세요.'}</div>`}
+function renderExam(){if(examPos>=examDeck.length){finishExam();return}examLocked=false;const q=examDeck[examPos];$('examIndex').textContent=`${examPos+1} / ${examDeck.length}`;$('examProgress').style.width=(examPos/examDeck.length*100)+'%';$('examEquation').textContent=q.equation;$('examTitle').textContent=q.title;$('examPrompt').textContent=q.prompt;$('examFeedback').textContent='';$('examSubmit').textContent=examPos===examDeck.length-1?'제출하고 결과 보기':'답안 제출 / 다음 문제';if(q.kind==='choice')$('examAnswerArea').innerHTML=q.options.map(o=>`<label class="choice"><input type="radio" name="examAnswer" value="${o.replace(/"/g,'&quot;')}"><span>${o}</span></label>`).join('');else $('examAnswerArea').innerHTML='<label>정답 입력</label><input id="examInput" autocomplete="off" placeholder="정답을 입력하세요">'}
+$('startExam').addEventListener('click',()=>{const level=$('examLevel').value;examDeck=shuffle(Q.filter(q=>level==='all'||q.difficulty===level)).slice(0,10);examPos=0;examRight=0;examSec=Number($('examMinutes').value)*60;$('examResult').innerHTML='';$('examArea').classList.remove('hidden');renderExam();clearInterval(examInterval);examInterval=setInterval(()=>{examSec--;const m=Math.floor(examSec/60),s=examSec%60;$('examTimer').textContent=`${m}:${String(s).padStart(2,'0')}`;if(examSec<=0)finishExam()},1000)});
+$('examSubmit').addEventListener('click',()=>{if(examLocked)return;const q=examDeck[examPos];const v=q.kind==='choice'?document.querySelector('input[name="examAnswer"]:checked')?.value:$('examInput')?.value;if(v==null||String(v).trim()===''){$('examFeedback').innerHTML='<div class="feedback bad">답을 입력하거나 선택하세요.</div>';return}examLocked=true;const ok=norm(v)===norm(q.answer);attempts++;if(ok){examRight++;correct++}recordAnswer(q,ok);updateStats();examPos++;renderExam()});
+// Electron-transfer animation
+const electronCases=[
+ {title:'아연과 구리 이온',prompt:'아연 금속이 구리 이온에 전자를 전달합니다.',donor:'Zn',donorAfter:'Zn²⁺',acceptor:'Cu²⁺',acceptorAfter:'Cu',count:'2e⁻',caption:'Zn → Zn²⁺ + 2e⁻ (산화) · Cu²⁺ + 2e⁻ → Cu (환원). 전자는 Zn에서 Cu²⁺로 이동합니다.'},
+ {title:'마그네슘과 산의 수소 이온',prompt:'마그네슘이 전자를 내놓고, 수소 이온이 전자를 받습니다.',donor:'Mg',donorAfter:'Mg²⁺',acceptor:'2H⁺',acceptorAfter:'H₂',count:'2e⁻',caption:'Mg → Mg²⁺ + 2e⁻ (산화) · 2H⁺ + 2e⁻ → H₂ (환원). 마그네슘에서 수소 이온으로 전자가 이동합니다.'},
+ {title:'나트륨과 염소',prompt:'나트륨 원자 두 개가 전자를 하나씩 내놓고 염소 분자가 전자를 받습니다.',donor:'2Na',donorAfter:'2Na⁺',acceptor:'Cl₂',acceptorAfter:'2Cl⁻',count:'2e⁻',caption:'2Na → 2Na⁺ + 2e⁻ (산화) · Cl₂ + 2e⁻ → 2Cl⁻ (환원). 나트륨에서 염소로 전자가 이동해 이온이 만들어집니다.'},
+ {title:'철과 구리 이온',prompt:'철이 구리 이온을 구리 금속으로 바꾸는 반응입니다.',donor:'Fe',donorAfter:'Fe²⁺',acceptor:'Cu²⁺',acceptorAfter:'Cu',count:'2e⁻',caption:'Fe → Fe²⁺ + 2e⁻ (산화) · Cu²⁺ + 2e⁻ → Cu (환원). 철은 산화되고 구리 이온은 환원됩니다.'},
+ {title:'칼슘과 산소',prompt:'칼슘은 전자를 잃고 산소는 전자를 얻어 이온을 만듭니다.',donor:'2Ca',donorAfter:'2Ca²⁺',acceptor:'O₂',acceptorAfter:'2O²⁻',count:'4e⁻',caption:'2Ca → 2Ca²⁺ + 4e⁻ (산화) · O₂ + 4e⁻ → 2O²⁻ (환원). 칼슘에서 산소로 총 4개의 전자가 이동합니다.'}
+];
+let activeElectronCase=0,lastElectronCase=-1;
+function chooseElectronCase(){
+ let n=Math.floor(Math.random()*electronCases.length);
+ if(electronCases.length>1&&n===lastElectronCase)n=(n+1+Math.floor(Math.random()*(electronCases.length-1)))%electronCases.length;
+ lastElectronCase=n;activeElectronCase=n;renderElectronCase(false);
+}
+function renderElectronCase(moved){
+ const c=electronCases[activeElectronCase];
+ $('electronCaseTitle').textContent=c.title;$('electronCasePrompt').textContent=c.prompt;
+ $('electronCount').textContent='전자 '+c.count;
+ $('donorIon').textContent=moved?c.donorAfter:c.donor;
+ $('acceptorIon').textContent=moved?c.acceptorAfter:c.acceptor;
+ $('electronCaption').textContent=moved?c.caption:'전자 이동 보기를 눌러 '+c.title+' 사례의 산화·환원 과정을 확인하세요.';
+ $('electronScene').classList.toggle('moved',moved);
+}
+$('animateElectron').addEventListener('click',()=>renderElectronCase(true));
+$('resetElectron').addEventListener('click',()=>renderElectronCase(false));
+
+const oxygenCases = [
+ {eq:'CuO + H₂ → Cu + H₂O', html:'<p><b>CuO → Cu:</b> 산소를 잃으므로 <b>환원</b>됩니다. 구리의 산화수는 +2에서 0으로 감소합니다.</p><p><b>H₂ → H₂O:</b> 산소를 얻으므로 <b>산화</b>됩니다. 수소의 산화수는 0에서 +1로 증가합니다.</p>'},
+ {eq:'Fe₂O₃ + 3CO → 2Fe + 3CO₂', html:'<p><b>Fe₂O₃ → Fe:</b> 산소를 잃으므로 <b>환원</b>됩니다.</p><p><b>CO → CO₂:</b> 산소를 얻으므로 <b>산화</b>됩니다. 철의 산화수는 +3에서 0으로 감소하고, 탄소는 +2에서 +4로 증가합니다.</p>'},
+ {eq:'2Mg + O₂ → 2MgO', html:'<p><b>Mg → MgO:</b> 산소를 얻으므로 <b>산화</b>됩니다.</p><p><b>O₂ → MgO:</b> 산소가 마그네슘과 결합하며 환원에 해당합니다. Mg는 0에서 +2, O는 0에서 −2로 변합니다.</p>'},
+ {eq:'C + O₂ → CO₂', html:'<p><b>C → CO₂:</b> 산소를 얻으므로 <b>산화</b>됩니다.</p><p><b>O₂:</b> 산소는 탄소와 결합해 산화물의 산소가 되며 산화수가 0에서 −2로 감소합니다.</p>'},
+ {eq:'2CuO + C → 2Cu + CO₂', html:'<p><b>CuO → Cu:</b> 산소를 잃으므로 <b>환원</b>됩니다.</p><p><b>C → CO₂:</b> 산소를 얻으므로 <b>산화</b>됩니다. 산소가 CuO에서 탄소 쪽으로 이동합니다.</p>'}
+];
+const hydrogenCases = [
+ {eq:'CH₃CH₂OH → CH₃CHO + H₂', html:'<p><b>에탄올 → 아세트알데하이드:</b> 수소를 잃는 변화이므로 <b>산화</b>로 볼 수 있습니다.</p><p><b>반대 방향:</b> 아세트알데하이드가 수소를 얻으면 에탄올로 환원됩니다.</p>'},
+ {eq:'CH₂=CH₂ + H₂ → CH₃CH₃', html:'<p><b>에텐 → 에테인:</b> 수소를 얻는 수소 첨가 반응으로, 유기화학의 수소 이동 관점에서 <b>환원</b>입니다.</p><p>역반응처럼 수소를 잃는 변화는 탈수소·산화 방향으로 해석할 수 있습니다.</p>'},
+ {eq:'CH₃CHO + H₂ → CH₃CH₂OH', html:'<p><b>아세트알데하이드 → 에탄올:</b> 수소를 얻으므로 <b>환원</b>됩니다.</p><p>반대로 에탄올이 수소를 잃어 아세트알데하이드가 되는 변화는 산화입니다.</p>'},
+ {eq:'CH₃CH₂CH₂OH → CH₃CH₂CHO + H₂', html:'<p><b>1-프로판올 → 프로판알:</b> 수소를 잃는 변화이므로 <b>산화</b>로 볼 수 있습니다.</p><p>알데하이드가 수소를 얻으면 알코올로 환원되는 방향입니다.</p>'},
+ {eq:'C₆H₁₂ → C₆H₆ + 3H₂', html:'<p><b>사이클로헥산 → 벤젠:</b> 수소를 잃는 탈수소 변화이므로 <b>산화</b>로 해석할 수 있습니다.</p><p>역방향의 수소 첨가는 수소를 얻는 환원 방향입니다.</p>'}
+];
+function renderOxygenCase(i){const c=oxygenCases[i];$('oxygenCaseSelect').value=String(i);$('oxygenEquation').textContent=c.eq;$('oxygenExplanation').innerHTML=c.html;}
+function renderHydrogenCase(i){const c=hydrogenCases[i];$('hydrogenCaseSelect').value=String(i);$('hydrogenEquation').textContent=c.eq;$('hydrogenExplanation').innerHTML=c.html;}
+$('oxygenCaseSelect').addEventListener('change',e=>renderOxygenCase(Number(e.target.value)));
+$('hydrogenCaseSelect').addEventListener('change',e=>renderHydrogenCase(Number(e.target.value)));
+$('nextOxygenCase').addEventListener('click',()=>{let i=Number($('oxygenCaseSelect').value);let j;do{j=Math.floor(Math.random()*oxygenCases.length)}while(j===i);renderOxygenCase(j);});
+$('nextHydrogenCase').addEventListener('click',()=>{let i=Number($('hydrogenCaseSelect').value);let j;do{j=Math.floor(Math.random()*hydrogenCases.length)}while(j===i);renderHydrogenCase(j);});
+renderOxygenCase(0);renderHydrogenCase(0);
+$('oxygenMoveTab').addEventListener('click',()=>{$('oxygenMoveContent').classList.remove('hidden');$('hydrogenMoveContent').classList.add('hidden');$('oxygenMoveTab').classList.remove('secondary');$('hydrogenMoveTab').classList.add('secondary')});
+$('hydrogenMoveTab').addEventListener('click',()=>{$('hydrogenMoveContent').classList.remove('hidden');$('oxygenMoveContent').classList.add('hidden');$('hydrogenMoveTab').classList.remove('secondary');$('oxygenMoveTab').classList.add('secondary')});
+$('nextElectronCase').addEventListener('click',chooseElectronCase);
+// Set a varied example on first load as well.
+chooseElectronCase();
+
+// Exploration tools: oxidation-number calculator, experiment reasoning, concept cards, and quick diagnostic.
+function parseFormulaSimple(raw){
+ let f=raw.trim().replace(/₀/g,'0').replace(/₁/g,'1').replace(/₂/g,'2').replace(/₃/g,'3').replace(/₄/g,'4').replace(/₅/g,'5').replace(/₆/g,'6').replace(/₇/g,'7').replace(/₈/g,'8').replace(/₉/g,'9').replace(/⁺/g,'+').replace(/⁻/g,'-').replace(/\s/g,'');
+ let charge=0;const cm=f.match(/(\d*)([+-])$/);if(cm){charge=(cm[2]==='+ '?1:cm[2]==='+'?1:-1)*(cm[1]?Number(cm[1]):1);f=f.slice(0,cm.index)}
+ if(!f||/[()\[\]]/.test(f))throw Error('현재 분석기는 괄호가 없는 간단한 화학식을 지원합니다. 예시 버튼을 사용하거나 괄호를 풀어 입력해 주세요.');
+ const counts={};const re=/([A-Z][a-z]?)(\d*)/g;let m,pos=0;while((m=re.exec(f))){if(m.index!==pos)throw Error('화학식 형식을 확인해 주세요. 원소 기호는 대문자로 시작해야 합니다.');counts[m[1]]=(counts[m[1]]||0)+(m[2]?Number(m[2]):1);pos=re.lastIndex}if(pos!==f.length||!Object.keys(counts).length)throw Error('화학식을 읽을 수 없습니다. 예: H2O, CO2, KMnO4');return {counts,charge,formula:raw.trim()}
+}
+function commonOxidation(el,counts){if(el==='F')return -1;if(el==='O')return -2;if(el==='H')return 1;if(['Li','Na','K','Rb','Cs'].includes(el))return 1;if(['Be','Mg','Ca','Sr','Ba'].includes(el))return 2;if(el==='Al')return 3;if(el==='Ag')return 1;if(el==='Zn')return 2;if(el==='Cl'&&Object.keys(counts).length===1)return 0;return null}
+function analyzeFormula(){const out=$('formulaResult');try{const parsed=parseFormulaSimple($('formulaInput').value);const target=$('targetElement').value.trim();if(!parsed.counts[target])throw Error('목표 원소가 입력한 화학식에 없습니다. 원소 기호를 확인해 주세요.');const els=Object.keys(parsed.counts);let known=0,unknown=[];for(const el of els){if(el===target){unknown.push(el);continue}const v=commonOxidation(el,parsed.counts);if(v===null)unknown.push(el);else known+=v*parsed.counts[el]}
+ if(unknown.some(e=>e!==target))throw Error('다른 원소의 산화수를 확실하게 정할 수 없습니다. 예시 화학식이나 산화수 규칙 요약을 확인해 주세요.');const value=(parsed.charge-known)/parsed.counts[target];const sum=parsed.charge===0?'0':String(parsed.charge);out.innerHTML=`<div class="analysis-result"><b>${target}의 산화수: ${value>0?'+':''}${value}</b><p>산화수 합 식: ${els.filter(e=>e!==target).map(e=>`${parsed.counts[e]}×(${commonOxidation(e,parsed.counts)>0?'+':''}${commonOxidation(e,parsed.counts)})`).concat([`${parsed.counts[target]}×x`]).join(' + ')} = ${sum}</p><p class="muted small">계산 결과를 산화수 규칙과 대조해 확인하세요. 과산화물 등 예외 물질은 자동 판정하지 않습니다.</p></div>`
+ }catch(e){out.innerHTML=`<div class="analysis-error">${e.message}</div>`}}
+const formulaChallenges=[
+ {formula:'KMnO4',element:'Mn',answer:'+7',label:'과망가니즈산 칼륨 속 Mn',hint:'K는 +1, O는 보통 -2입니다.'},
+ {formula:'H2SO4',element:'S',answer:'+6',label:'황산 속 S',hint:'H는 +1, O는 보통 -2입니다.'},
+ {formula:'Fe2O3',element:'Fe',answer:'+3',label:'산화 철(III) 속 Fe',hint:'O는 보통 -2이며, 화합물은 중성입니다.'},
+ {formula:'NH4+',element:'N',answer:'-3',label:'암모늄 이온 속 N',hint:'H는 +1이고 산화수 합은 +1입니다.'},
+ {formula:'CO2',element:'C',answer:'+4',label:'이산화 탄소 속 C',hint:'O는 각각 -2이고 전체 합은 0입니다.'},
+ {formula:'NO3-',element:'N',answer:'+5',label:'질산 이온 속 N',hint:'O는 각각 -2이고 산화수 합은 -1입니다.'},
+ {formula:'SO4^2-',element:'S',answer:'+6',label:'황산 이온 속 S',hint:'O는 각각 -2이고 산화수 합은 -2입니다.'},
+ {formula:'KNO3',element:'N',answer:'+5',label:'질산 칼륨 속 N',hint:'K는 +1, O는 보통 -2입니다.'},
+ {formula:'K2Cr2O7',element:'Cr',answer:'+6',label:'중크롬산 칼륨 속 Cr',hint:'K는 +1, O는 보통 -2입니다.'},
+ {formula:'Na2CO3',element:'C',answer:'+4',label:'탄산 나트륨 속 C',hint:'Na는 +1, O는 보통 -2입니다.'},
+ {formula:'H2O',element:'O',answer:'-2',label:'물 속 O',hint:'H는 보통 +1이고 물은 중성입니다.'}
+];
+let activeFormulaChallenge=null;
+$('startRandomFormula').addEventListener('click',()=>{
+ const pool=formulaChallenges.filter(x=>!activeFormulaChallenge||x.label!==activeFormulaChallenge.label);
+ activeFormulaChallenge=pool[Math.floor(Math.random()*pool.length)];
+ $('formulaInput').value=activeFormulaChallenge.formula;
+ $('targetElement').value=activeFormulaChallenge.element;
+ $('formulaResult').innerHTML=`<div class="rule"><b>랜덤 문제:</b> ${activeFormulaChallenge.label}의 산화수를 구하세요.<br><span class="muted">힌트: ${activeFormulaChallenge.hint}</span><br>아래의 '산화수 계산하기'를 눌러 풀이를 확인하세요.</div>`;
+});
+$('analyzeFormula').addEventListener('click',analyzeFormula);
+document.querySelectorAll('.formula-example').forEach(b=>b.addEventListener('click',()=>{
+ $('formulaInput').value=b.dataset.formula;
+ $('targetElement').value=b.dataset.element;
+ activeFormulaChallenge=null;
+ analyzeFormula();
+}));
+const experiments={ironCopper:{story:'관찰: 푸른 황산구리 수용액에 철 못을 넣었더니 철 못 표면에 붉은 구리 고체가 생기고 용액의 색이 옅어졌습니다.',question:'이 반응에 대한 설명으로 옳은 것은?',options:['철은 산화되고 Cu²⁺는 환원된다.','철은 환원되고 Cu²⁺는 산화된다.','산화·환원 반응이 일어나지 않는다.'],answer:0,why:'철은 Fe²⁺가 되며 전자를 잃고 산화됩니다. Cu²⁺는 전자를 얻어 구리로 환원됩니다.'},magnesiumAcid:{story:'관찰: 마그네슘 조각을 묽은 염산에 넣자 기체가 발생하고 마그네슘이 점차 녹았습니다.',question:'반응에서 산화된 물질과 환원된 물질을 바르게 짝지은 것은?',options:['Mg가 산화되고 H⁺가 환원된다.','Mg가 환원되고 Cl⁻가 산화된다.','H⁺가 산화되고 Mg가 환원된다.'],answer:0,why:'Mg는 Mg²⁺가 되면서 전자를 잃고, H⁺는 전자를 얻어 H₂를 형성합니다.'},copperOxide:{story:'관찰: 검은 산화 구리(II)를 탄소와 함께 가열하자 붉은 구리가 생성되고 기체가 발생했습니다.',question:'이 반응에서 환원제로 작용하는 물질은?',options:['산화 구리(II)','탄소','생성된 구리'],answer:1,why:'탄소는 산화 구리(II)를 환원시키며 자신은 산화되므로 환원제입니다.'}};
+const experimentQuestionBank={
+ ironCopper:[
+  {question:'이 반응에서 산화된 물질은?',options:['철(Fe)','구리 이온(Cu²⁺)','황산 이온(SO₄²⁻)'],answer:0,why:'철은 전자를 잃고 Fe²⁺가 되므로 산화됩니다.'},
+  {question:'이 반응에서 환원된 물질은?',options:['철(Fe)','구리 이온(Cu²⁺)','물(H₂O)'],answer:1,why:'Cu²⁺는 전자를 얻어 구리(Cu)가 되므로 환원됩니다.'},
+  {question:'이 반응에서 산화제는?',options:['철(Fe)','구리 이온(Cu²⁺)','생성된 구리(Cu)'],answer:1,why:'Cu²⁺는 철을 산화시키고 자신은 환원되므로 산화제입니다.'},
+  {question:'철의 산화수 변화로 옳은 것은?',options:['0에서 +2로 증가','+2에서 0으로 감소','변화 없음'],answer:0,why:'Fe(s)의 산화수는 0이고 Fe²⁺가 되면 +2이므로 산화됩니다.'},
+  {question:'붉은 고체가 생기는 이유로 옳은 것은?',options:['Cu²⁺가 전자를 얻어 구리로 석출된다','철이 전자를 얻어 붉어진다','황산 이온이 금속으로 변한다'],answer:0,why:'철이 내놓은 전자를 Cu²⁺가 받아 구리 금속으로 석출됩니다.'}
+ ],
+ magnesiumAcid:[
+  {question:'이 반응에서 산화된 물질은?',options:['마그네슘(Mg)','수소 이온(H⁺)','염화 이온(Cl⁻)'],answer:0,why:'Mg는 Mg²⁺가 되면서 전자를 잃으므로 산화됩니다.'},
+  {question:'기체가 생성되는 과정에서 환원되는 입자는?',options:['Mg 원자','H⁺ 이온','Cl⁻ 이온'],answer:1,why:'H⁺는 전자를 얻어 수소 기체 H₂를 형성합니다.'},
+  {question:'이 반응에서 환원제는?',options:['마그네슘(Mg)','수소 이온(H⁺)','염화 이온(Cl⁻)'],answer:0,why:'Mg는 H⁺를 환원시키고 자신은 산화되므로 환원제입니다.'},
+  {question:'마그네슘의 산화수 변화는?',options:['0에서 +2로 증가','+2에서 0으로 감소','0에서 -1로 감소'],answer:0,why:'금속 Mg의 산화수는 0이고 Mg²⁺에서는 +2입니다.'},
+  {question:'수소 이온의 변화로 옳은 것은?',options:['전자 2개를 잃어 산화된다','전자를 얻어 환원된다','산화수가 변하지 않는다'],answer:1,why:'수소 이온은 전자를 얻어 H₂가 되며 산화수는 +1에서 0으로 감소합니다.'}
+ ],
+ copperOxide:[
+  {question:'이 반응에서 환원된 물질은?',options:['산화 구리(II)','탄소','이산화 탄소'],answer:0,why:'산화 구리(II)의 구리는 산화수 +2에서 0으로 감소해 환원됩니다.'},
+  {question:'이 반응에서 환원제는?',options:['산화 구리(II)','탄소','생성된 구리'],answer:1,why:'탄소는 산화 구리(II)를 환원시키고 자신은 산화되므로 환원제입니다.'},
+  {question:'구리의 산화수 변화로 옳은 것은?',options:['+2에서 0으로 감소','0에서 +2로 증가','변화 없음'],answer:0,why:'CuO의 구리는 +2이고 생성된 Cu 금속의 산화수는 0입니다.'},
+  {question:'탄소가 산화되는 이유는?',options:['산화수가 증가하기 때문','산화수가 감소하기 때문','전자를 얻기 때문'],answer:0,why:'탄소는 산소와 결합해 산화수가 증가하므로 산화됩니다.'},
+  {question:'산화 구리(II)와 탄소의 반응에 대한 설명은?',options:['산화·환원이 동시에 일어난다','환원만 일어난다','산화만 일어난다'],answer:0,why:'산화 구리(II)는 환원되고 탄소는 산화되므로 두 과정이 함께 일어납니다.'}
+ ]
+};
+let currentExperimentQuestion=null;
+let lastExperimentQuestionIndex=-1;
+function renderExperiment(){
+ const key=$('experimentSelect').value;
+ const e=experiments[key], bank=experimentQuestionBank[key]||[];
+ let idx=bank.length>1?Math.floor(Math.random()*bank.length):0;
+ if(bank.length>1&&idx===lastExperimentQuestionIndex)idx=(idx+1+Math.floor(Math.random()*(bank.length-1)))%bank.length;
+ lastExperimentQuestionIndex=idx;
+ currentExperimentQuestion=bank[idx]||{question:e.question,options:e.options,answer:e.answer,why:e.why};
+ $('experimentStory').textContent=e.story;
+ $('experimentQuestion').textContent=currentExperimentQuestion.question;
+ $('experimentChoices').innerHTML=currentExperimentQuestion.options.map((o,i)=>`<label class="choice"><input type="radio" name="experimentAnswer" value="${i}"><span>${o}</span></label>`).join('');
+ $('experimentFeedback').innerHTML='';
+}
+$('experimentSelect').addEventListener('change',()=>{lastExperimentQuestionIndex=-1;renderExperiment()});
+renderExperiment();
+$('checkExperiment').addEventListener('click',()=>{
+ const e=currentExperimentQuestion,v=document.querySelector('input[name="experimentAnswer"]:checked');
+ if(!v){$('experimentFeedback').innerHTML='<div class="feedback bad">먼저 답을 선택하세요.</div>';return}
+ $('experimentFeedback').innerHTML=Number(v.value)===e.answer?`<div class="feedback good">정답입니다. ${e.why}</div>`:`<div class="feedback bad">다시 생각해 보세요. ${e.why}</div>`;
+});
+document.querySelectorAll('.concept-card').forEach(card=>card.addEventListener('click',()=>{card.classList.toggle('open');card.querySelector('span').textContent=card.classList.contains('open')?'핵심 정의':'정의를 확인하려면 누르기';card.querySelector('em').classList.toggle('hidden')}));
+const quickQuestionBank=[
+ {q:'산화수가 증가한 원소는?',opts:['산화된다','환원된다','항상 산화제이다'],a:0,why:'산화수 증가를 산화라고 합니다.'},
+ {q:'산화제의 변화는?',opts:['자신이 산화된다','자신이 환원된다','전자와 관계없다'],a:1,why:'산화제는 상대를 산화시키고 자신은 전자를 얻어 환원됩니다.'},
+ {q:'중성 화합물에서 모든 원자의 산화수 합은?',opts:['항상 +1','항상 -1','0'],a:2,why:'중성 화합물의 전체 전하는 0이므로 산화수 합도 0입니다.'},
+ {q:'홑원소 물질의 산화수는?',opts:['0','항상 +1','원자 번호와 같다'],a:0,why:'홑원소 물질의 산화수는 0입니다.'},
+ {q:'환원은 무엇과 관련 있나요?',opts:['전자 잃기','전자 얻기','항상 산소와 결합하기'],a:1,why:'환원은 전자를 얻거나 산화수가 감소하는 과정입니다.'},
+ {q:'환원제는 반응에서 어떻게 되나요?',opts:['자신이 산화된다','자신이 환원된다','항상 이온이 된다'],a:0,why:'환원제는 다른 물질을 환원시키고 자신은 산화됩니다.'},
+ {q:'단원자 이온 Cl⁻의 산화수는?',opts:['0','+1','-1'],a:2,why:'단원자 이온의 산화수는 이온 전하와 같습니다.'},
+ {q:'산소의 일반적인 산화수는?',opts:['+2','-2','0'],a:1,why:'산소는 보통 -2입니다. 과산화물 등 예외가 있습니다.'},
+ {q:'H₂O에서 H의 일반적인 산화수는?',opts:['+1','-1','0'],a:0,why:'수소는 대부분의 화합물에서 +1입니다.'},
+ {q:'산화와 환원의 관계로 옳은 것은?',opts:['항상 따로 일어난다','동시에 일어난다','산화만 일어난다'],a:1,why:'산화와 환원은 전자 이동에 의해 항상 함께 일어납니다.'},
+ {q:'산화수가 감소한 원소는?',opts:['산화된다','환원된다','산화제만 된다'],a:1,why:'산화수 감소를 환원이라고 합니다.'},
+ {q:'다원자 이온의 산화수 합은?',opts:['항상 0','이온의 전체 전하','항상 +1'],a:1,why:'다원자 이온에서 모든 원자의 산화수 합은 이온의 전체 전하와 같습니다.'}
+];
+let activeQuickQuestions=[];
+function renderQuickQuiz(){
+ $('quickQuiz').innerHTML=activeQuickQuestions.map((q,i)=>`<div class="quiz-item"><b>${i+1}. ${q.q}</b>${q.opts.map((o,j)=>`<label><input type="radio" name="quick${i}" value="${j}"> ${o}</label>`).join('')}<div class="why hidden" id="quickWhy${i}"></div></div>`).join('');
+ $('quickQuizResult').innerHTML='';
+ $('gradeQuickQuiz').disabled=false;
+}
+$('startQuickQuiz').addEventListener('click',()=>{
+ const shuffled=[...quickQuestionBank].sort(()=>Math.random()-0.5);
+ activeQuickQuestions=shuffled.slice(0,3);
+ renderQuickQuiz();
+});
+$('gradeQuickQuiz').addEventListener('click',()=>{
+ if(!activeQuickQuestions.length){$('quickQuizResult').innerHTML='<div class="analysis-error">먼저 랜덤 진단을 시작하세요.</div>';return}
+ let score=0,answered=0;
+ activeQuickQuestions.forEach((q,i)=>{
+  const sel=document.querySelector(`input[name="quick${i}"]:checked`),why=$(`quickWhy${i}`);
+  why.classList.remove('hidden');
+  if(sel){answered++;if(Number(sel.value)===q.a)score++;why.textContent=(Number(sel.value)===q.a?'정답. ':'오답. ')+q.why}
+  else why.textContent='미응답. '+q.why;
+ });
+ $('quickQuizResult').innerHTML=`<div class="analysis-result"><b>진단 결과: ${score}/3점</b><p>${answered<3?'모든 문항에 답하면 더 정확히 점검할 수 있어요.':score===3?'핵심 규칙을 잘 이해하고 있어요.':'해설을 읽고 개념 카드를 다시 확인해 보세요.'}</p><button class="btn secondary" id="retryQuickQuiz">다른 랜덤 문제 풀기</button></div>`;
+ $('retryQuickQuiz').addEventListener('click',()=>$('startQuickQuiz').click());
+});
+
+renderDashboard();updateStats();
+
+</script>
+</body></html>
